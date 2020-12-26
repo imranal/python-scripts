@@ -66,11 +66,35 @@ print("Den aarlige energikostnaden blir: %.2f kr."%aarlig_energi_kostnad)
 Oppgave 2
 
 """
-from sympy import Function, Derivative, dsolve
-from sympy.abc import t, k
-print("Oppgave 2 a)")
+from sympy import Function, Derivative, dsolve, solve, Eq, symbols, diff
+t,k = symbols('t,k', real=True) # Trenger argumentet real for aa unngaa aa haantere komplekse losninger
+print("\nOppgave 2 b)")
 
 M = Function('M')(t)
 M_ = Derivative(M,t)
 Eqn = M_ - k*M
-#sol = dsolve(Eqn, ics={M.subs(t,0): 100, M.subs(t, 6): 97})
+M0 = 100
+t_ = 0
+sol = dsolve(Eqn, ics={M.subs(t,t_): M0})
+uttrykk = sol.rhs
+print("Losningen blir:",uttrykk,"for M(%.1f) = %.1f"%(t_,M0))
+M6 = 97
+t_ = 6
+print("Loser",uttrykk,"for k, for M(%5.2f) = %.2f"%(t_,M6))
+uttrykk_2 = uttrykk.subs(t,t_)
+#k_verdi = float(solve(Eq(uttrykk_2, M6),k)[-1])
+k_verdi = float(solve(Eq(uttrykk_2, M6),k)[0])
+uttrykk_med_k = uttrykk.subs(k,k_verdi)
+print("M(t) =",uttrykk_med_k)
+
+print("\nOppgave 2 c)")
+M__ = 2
+uttrykk_3 = Eq(uttrykk, M__)
+t_ = float(solve(uttrykk_3, t)[0].subs(k,k_verdi)) # Av visse grunner klarer ikke solve aa lose med k_verdi
+print("Det tar %f timer for stoffet aa naa %.2f mg per time"%(t_,M__))
+
+print("\nOppgave 2 d")
+uttrykk4 = diff(uttrykk,t)
+t_ = solve(uttrykk4 + 0.2, t)[0].subs(k, k_verdi) #Loser M'(t) = -0.2
+print("Det tar %f timer for stoffet aa regnes som ufarlig."%t_)
+
