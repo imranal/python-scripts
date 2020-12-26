@@ -98,3 +98,36 @@ uttrykk4 = diff(uttrykk,t)
 t_ = solve(uttrykk4 + 0.2, t)[0].subs(k, k_verdi) #Loser M'(t) = -0.2
 print("Det tar %f timer for stoffet aa regnes som ufarlig."%t_)
 
+
+"""
+
+Oppgave 3
+
+"""
+from math import pi
+print("\nOppgave 3 a)")
+diameter = 5.03
+tot_lengde = 0
+
+for i in range(1,51):
+    diameter = diameter + 2*0.015
+    tot_lengde = tot_lengde + pi*diameter
+print("Etter 50 runder tilsvarer det ca. %.2f m for han er tom."%(tot_lengde/100))    
+
+
+print("\nOppgave 3 b)")
+from sympy.abc import n
+from sympy import solve, Eq
+a1 = 5.0
+d = 0.03*pi
+an = a1 + (n-1)*d
+sn = (a1 + an)*n/2
+n_verdi = int(solve(Eq(an,14),n)[0]) # bruker formel for aritmetisk rekke og løser for n
+tot_lengde = float(sn.subs(n,n_verdi))
+print("Bruker formel for aritmetisk rekke og loser for n. Total lengde er da ca.: %.2f m."%(tot_lengde/100))  
+ 
+ 
+print("\nOppgave 3 c)")
+n_verdi = int(solve(Eq(sn,50000),n)[1])
+D = (an.subs(n,n_verdi) + 5)/pi
+print("D = %.2f cm."%D)
