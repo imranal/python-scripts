@@ -131,3 +131,98 @@ print("\nOppgave 3 c)")
 n_verdi = int(solve(Eq(sn,50000),n)[1])
 D = (an.subs(n,n_verdi) + 5)/pi
 print("D = %.2f cm."%D)
+
+
+"""
+
+Oppgave 4
+
+"""
+
+print("\nOppgave 4")
+from sympy.physics.vector import ReferenceFrame
+from sympy.abc import t, x, y, z
+from sympy import sqrt
+
+N = ReferenceFrame('N')
+# punktene
+A = -N.x - N.y + 2*N.z
+B = 3*N.x + 4*N.y - N.z
+C = 5*N.x + 3*N.y + N.z
+D = 5*N.x + 6*N.y +4*N.z
+r = 8 # radius av sirkelen
+
+AB = A - B
+AC = A - C
+kryssprodukt = AB.cross(AC)
+planet = (x*N.x + y*N.y + z*N.z - A).dot(kryssprodukt)
+print("planet:", planet)
+# Leser av og setter inn manuelt for a, b, c og d
+a = 7
+b = -14
+c = -14
+d = 21
+
+AD = A - D
+# linja
+l = A + t*AD
+print("Linja:", l)
+
+# Avstand mellom linje og planet:
+Eqn = (kryssprodukt.dot(l) + d)/sqrt(kryssprodukt.dot(kryssprodukt))
+print(Eqn, "= 0")
+losning = solve(Eqn-r)
+print("t  =",losning[0])
+print("Sirkelen har sentrum i punktet", l.subs(t,losning[0]))
+
+
+"""
+
+$ python R2_V_2020.py
+Oppgave 1 a)
+Folgende funksjon passer med dataen:
+1108.49160064138 - 442.883287628801*sin(24.613253252313*x - 107.977736270776)
+
+Oppgave 1 b)
+Regner ut verdiene for hver maaned og tar differensen mellom maanedene. Slik kan vi se hvor det er storst okning.
+[-103.43938341 -269.04239265 -363.52091356 -361.89844936 -264.60391733
+  -97.3582596    95.62518737  263.32900292  361.41873123  363.96321079
+  270.28977881]
+Det var storst okning i maaned nr 10
+
+Oppgave 1 c)
+Intregralet blir: I =  15547.4642019871
+Vi kan sammenligne dette med summen av de 12 forste maaneder ved aa bruke uttrykket:
+15540.789191304548 , der forksjellen mellom integralet og summen blir: 6.67501068258753
+
+Oppgave 1 d)
+Den aarlige energikostnaden blir: 13931.68 kr.
+
+Oppgave 2 b)
+Losningen blir: 100*exp(k*t) for M(0.0) = 100.0
+Loser 100*exp(k*t) for k, for M( 6.00) = 97.00
+M(t) = 100*exp(-0.00507653458078476*t)
+
+Oppgave 2 c)
+Det tar 770.608954 timer for stoffet aa naa 2.00 mg per time
+
+Oppgave 2 d
+Det tar 183.487705 timer for stoffet aa regnes som ufarlig.
+
+Oppgave 3 a)
+Etter 50 runder tilsvarer det ca. 9.10 m for han er tom.
+
+Oppgave 3 b)
+Bruker formel for aritmetisk rekke og loser for n. Total lengde er da ca.: 9.10 m.
+
+Oppgave 3 c)
+D = 32.49 cm.
+
+Oppgave 4
+planet: 7*x - 14*y - 14*z + 21
+Linja: (-6*t - 1)*N.x + (-7*t - 1)*N.y + (2 - 2*t)*N.z
+4*t = 0
+t  = 2
+Sirkelen har sentrum i punktet - 13*N.x - 15*N.y - 2*N.z
+
+"""
